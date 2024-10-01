@@ -47,7 +47,7 @@
       <div class="step step--2">
         <h3 class="step-title">Sony e-Voucher Redemption</h3>
         <div class="video-container">
-          <video id="video" autoplay></video>
+          <video autoplay></video>
         </div>
         <p class="step-subtitle">
           Please use your camera and Scan QR Code to begin the redemption
@@ -59,7 +59,7 @@
       <div class="step step--3">
         <h3 class="step-title">Sony e-Voucher Redemption</h3>
         <div class="video-container border-red">
-          <video id="video" autoplay></video>
+          <video autoplay></video>
         </div>
         <div id="qr-result">No QR code detected.</div>
         <p class="step-subtitle">Use your camera to scan the QR Code.</p>
@@ -184,44 +184,46 @@
 
       // QR Code scanning function
       function scanQRCode(stream) {
-        const video = document.getElementById("video");
-        const qrResult = document.getElementById("qr-result");
+        const videos = document.querySelectorAll(".video-container video");
+        videos.forEach((video) => {
+          const qrResult = document.getElementById("qr-result");
 
-        video.srcObject = stream;
-        video.setAttribute("playsinline", true); // For iOS inline playback
-        video.play();
+          video.srcObject = stream;
+          video.setAttribute("playsinline", true); // For iOS inline playback
+          video.play();
 
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
 
-        function tick() {
-          if (video.readyState === video.HAVE_ENOUGH_DATA) {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const imageData = context.getImageData(
-              0,
-              0,
-              canvas.width,
-              canvas.height
-            );
-            const qrCode = jsQR(imageData.data, canvas.width, canvas.height, {
-              inversionAttempts: "dontInvert",
-            });
+          function tick() {
+            if (video.readyState === video.HAVE_ENOUGH_DATA) {
+              canvas.width = video.videoWidth;
+              canvas.height = video.videoHeight;
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const imageData = context.getImageData(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
+              const qrCode = jsQR(imageData.data, canvas.width, canvas.height, {
+                inversionAttempts: "dontInvert",
+              });
 
-            if (qrCode) {
-              qrResult.textContent = `QR Code Detected: ${qrCode.data}`;
-              stopStream(stream); // Stop the camera stream once the QR code is detected
-              moveToNextStep();
-            } else {
-              qrResult.textContent = "No QR code detected.";
+              if (qrCode) {
+                qrResult.textContent = `QR Code Detected: ${qrCode.data}`;
+                stopStream(stream); // Stop the camera stream once the QR code is detected
+                moveToNextStep();
+              } else {
+                qrResult.textContent = "No QR code detected.";
+              }
             }
+
+            requestAnimationFrame(tick);
           }
 
-          requestAnimationFrame(tick);
-        }
-
-        tick();
+          tick();
+        });
       }
 
       // Function to stop the camera stream
