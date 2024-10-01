@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voucher Redemption Process</title>
+    <link rel="stylesheet" href="sony-voucher-redeem.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Step 1: Store Selection -->
+      <div class="step step--1 active">
+        <h3 class="step-title">Select a Store to Redeem</h3>
+        <div class="step-dropdown">
+          <div class="step-dropdown-value">
+            <div class="input-container">
+              <input
+                type="text"
+                id="select-store"
+                class="styled-input"
+                placeholder=" "
+                readonly
+              />
+              <label for="select-store" class="required">Select a Store</label>
+            </div>
+          </div>
+          <div class="step-dropdown-options">
+            <!-- Store options are listed here -->
+            <div class="step-dropdown-options-item" data-value="SONY store">
+              SONY Store
+            </div>
+            <div class="step-dropdown-options-item" data-value="Digi store">
+              Digi Store
+            </div>
+            <div class="step-dropdown-options-item" data-value="Shop Dunk">
+              Shop Dunk
+            </div>
+            <div class="step-dropdown-options-item" data-value="Tech store">
+              Tech Store
+            </div>
+          </div>
+        </div>
+        <button class="step-button">Next</button>
+      </div>
+
+      <!-- Step 2: Camera Confirmation -->
+      <div class="step step--2">
+        <h3 class="step-title">Sony e-Voucher Redemption</h3>
+        <p class="step-subtitle">
+          Confirm camera access to begin scanning the QR code.
+        </p>
+        <button class="step-button button-confirm-camera">
+          Confirm Camera
+        </button>
+      </div>
+
+      <!-- Step 3: QR Code Scanning -->
+      <div class="step step--3">
+        <h3 class="step-title">Sony e-Voucher Redemption</h3>
+        <video id="video" autoplay></video>
+        <div id="qr-result">No QR code detected.</div>
+        <p class="step-subtitle">Use your camera to scan the QR Code.</p>
+      </div>
+
+      <!-- Step 4: QR Code Scanned and Voucher Applied -->
+      <div class="step step--4">
+        <h3 class="step-title">Sony e-Voucher Redemption</h3>
+        <a href="javascript:void(0)" class="step-nav">Back to Scan QR Code</a>
+        <span class="icon-success"></span>
+        <p class="voucher-code">SONY50OFF is valid</p>
+        <div class="discount">
+          <p>You will get a discount of</p>
+          <h3>$50</h3>
+        </div>
+        <div class="step-input-container">
+          <label class="required">Serial No.</label>
+          <input type="text" class="step-input" placeholder="Serial No." />
+        </div>
+        <div class="step-dropdown">
+          <div class="step-dropdown-value">
+            <input type="text" readonly placeholder="Select Model" />
+          </div>
+          <div class="step-dropdown-options">
+            <div class="step-dropdown-options-item" data-value="Model 1">
+              Model 1
+            </div>
+            <div class="step-dropdown-options-item" data-value="Model 2">
+              Model 2
+            </div>
+            <div class="step-dropdown-options-item" data-value="Model 3">
+              Model 3
+            </div>
+          </div>
+        </div>
+        <button class="step-button">Apply</button>
+      </div>
+
+      <!-- Step 5: Final Submission -->
+      <div class="step step--5">
+        <h3 class="step-title">Sony e-Voucher Redemption</h3>
+        <a href="javascript:void(0)" class="step-nav">Back to Scan QR Code</a>
+        <span class="icon-success"></span>
+        <p class="voucher-code">SONY50OFF is valid</p>
+        <div class="discount">
+          <p>You will get a discount of</p>
+          <h3>$50</h3>
+        </div>
+        <div class="step-input-container">
+          <label class="required">Serial No.</label>
+          <input type="text" class="step-input" placeholder="Serial No." />
+        </div>
+        <div class="step-input-container">
+          <label class="required">Select Model</label>
+          <input type="text" class="step-input" placeholder="Select Model" />
+        </div>
+        <div class="step-input-container">
+          <label class="required">Invoice No.</label>
+          <input type="text" class="step-input" placeholder="Invoice No." />
+        </div>
+        <button class="step-button">Submit</button>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+    <script>
+      // Script for handling dropdown and step navigation
+      document.querySelectorAll(".step-dropdown-value").forEach((dropdown) => {
+        dropdown.addEventListener("click", function () {
+          this.parentElement.classList.toggle("active");
+        });
+      });
+
+      document.querySelectorAll(".step-dropdown").forEach((dropdown) => {
+        dropdown.addEventListener("click", (event) => {
+          if (event.target.classList.contains("step-dropdown-options-item")) {
+            const selectedItem = event.target;
+
+            dropdown
+              .querySelectorAll(".step-dropdown-options-item.selected")
+              .forEach((item) => item.classList.remove("selected"));
+
+            selectedItem.classList.add("selected");
+            dropdown.querySelector("input").value = selectedItem.innerText;
+            dropdown.classList.remove("active");
+          }
+        });
+      });
+
+      // Navigate to the next step
+      document.querySelectorAll(".step-button").forEach((button, index) => {
+        button.addEventListener("click", function () {
+          const currentStep = document.querySelector(".step.active");
+          currentStep.classList.remove("active");
+
+          if (index === 1) {
+            // If "Confirm Camera" button is clicked, move to the next step and prompt for camera access
+            confirmCameraAccess();
+          } else {
+            document
+              .querySelector(`.step--${index + 2}`)
+              .classList.add("active");
+          }
+        });
+      });
+
+      // Function to confirm camera access
+      function confirmCameraAccess() {
+        navigator.mediaDevices
+          .getUserMedia({ video: { facingMode: "environment" } })
+          .then(function (stream) {
+            // Camera access granted, move to QR scanning step
+            document.querySelector(".step--2").classList.remove("active");
+            document.querySelector(".step--3").classList.add("active");
+
+            scanQRCode(stream);
+          })
+          .catch(function (err) {
+            console.error("Camera access denied: ", err);
+            alert("Camera access is required to scan the QR code.");
+          });
+      }
+
+      // QR Code scanning function
+      function scanQRCode(stream) {
+        const video = document.getElementById("video");
+        const qrResult = document.getElementById("qr-result");
+
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true); // For iOS inline playback
+        video.play();
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        function tick() {
+          if (video.readyState === video.HAVE_ENOUGH_DATA) {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = context.getImageData(
+              0,
+              0,
+              canvas.width,
+              canvas.height
+            );
+            const qrCode = jsQR(imageData.data, canvas.width, canvas.height, {
+              inversionAttempts: "dontInvert",
+            });
+
+            if (qrCode) {
+              qrResult.textContent = `QR Code Detected: ${qrCode.data}`;
+              stopStream(stream); // Stop the camera stream once the QR code is detected
+              moveToNextStep();
+            } else {
+              qrResult.textContent = "No QR code detected.";
+            }
+          }
+
+          requestAnimationFrame(tick);
+        }
+
+        tick();
+      }
+
+      // Function to stop the camera stream
+      function stopStream(stream) {
+        stream.getTracks().forEach((track) => track.stop());
+      }
+
+      // Function to move to the next step after QR code is scanned
+      function moveToNextStep() {
+        document.querySelector(".step--3").classList.remove("active");
+        document.querySelector(".step--4").classList.add("active");
+      }
+    </script>
+  </body>
+</html>

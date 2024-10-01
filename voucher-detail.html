@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sony Voucher</title>
+  </head>
+  <body>
+    <style>
+      .voucher-popup {
+        max-width: 480px;
+        max-height: 80vh;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        display: none;
+      }
+      .voucher-popup.open {
+        display: block;
+      }
+      .popup-content {
+        padding: 40px;
+        overflow: hidden;
+        max-height: calc(80vh - 50px);
+      }
+      .popup-content__wrap {
+        max-height: 60vh;
+        overflow-y: auto;
+        padding-right: 16px;
+      }
+
+      /* Styling for custom scrollbar */
+      .popup-content__wrap::-webkit-scrollbar {
+        width: 4px;
+      }
+
+      .popup-content__wrap::-webkit-scrollbar-track {
+        background: #fff;
+        border-radius: 10px;
+      }
+
+      .popup-content__wrap::-webkit-scrollbar-thumb {
+        background-color: #cecece;
+        border-radius: 10px;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        cursor: pointer;
+      }
+
+      .popup-content h2 {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0 auto 10px;
+      }
+
+      .valid-date {
+        font-size: 15px;
+        margin-bottom: 20px;
+      }
+
+      .discount {
+        background: #0d88581a;
+        border-radius: 10px;
+        padding: 10px 16px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .discount p {
+        font-size: 15px;
+        color: #757575;
+        margin: 0;
+      }
+
+      .discount h3 {
+        font-size: 36px;
+        color: #0b754c;
+        margin: 10px auto 0;
+      }
+
+      .qr-code {
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .qr-code img {
+        max-width: 150px;
+        max-height: 150px;
+      }
+
+      .voucher-code {
+        background: #f2f5f9;
+        border: none;
+        text-transform: uppercase;
+        font-weight: 500;
+        padding: 10px 16px;
+        font-size: 20px;
+        border-radius: 5px;
+        width: 146px;
+        margin: 0 auto 20px;
+        text-align: center;
+      }
+
+      .exclusive-info {
+        text-align: left;
+        margin-bottom: 20px;
+      }
+
+      .exclusive-info p {
+        font-size: 15px;
+      }
+
+      .exclusive-info p strong {
+        color: #333333;
+      }
+
+      .exclusive-info p a {
+        font-size: 15px;
+        text-decoration: none;
+      }
+
+      @media screen and (max-width: 425px) {
+        .voucher-popup {
+          bottom: 0;
+          left: 0;
+          transform: translate(0);
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+        }
+
+        .close-btn {
+          top: 16px;
+          right: 16px;
+        }
+        .popup-content {
+          padding: 40px 20px;
+        }
+        .popup-content h2 {
+          font-size: 22px;
+        }
+        .valid-date {
+          font-size: 12px;
+        }
+        .discount {
+          padding: 10px 11px;
+          margin-bottom: 8px;
+        }
+        .discount h3 {
+          font-size: 30px;
+        }
+        .qr-code {
+          margin: 8px 0;
+        }
+      }
+    </style>
+    <div class="voucher-popup open">
+      <span class="close-btn close-btn--voucher">
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+            fill="black"
+          />
+        </svg>
+      </span>
+      <div class="popup-content">
+        <h2>Loyalty Voucher</h2>
+        <p class="valid-date">Valid until 12/10/2024</p>
+        <div class="popup-content__wrap">
+          <div class="discount">
+            <p>You will get a discount of</p>
+            <h3>$50</h3>
+          </div>
+          <div class="qr-code">
+            <p>Scan to use voucher</p>
+            <img
+              src="https://s3-alpha-sig.figma.com/img/81a9/f96d/b6185ff7470aa84513629363531e9c23?Expires=1728259200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=BDyFxAm0P3Lp-KjfCRGUaSQbDIv8nvaNP1wGN-Bdv0kXbp2k5A0MRQFgbn7h49oVzei5DRR3CdSh-WWqHXT7hCBI7GrawL7xM2iYaOmRJS4DDWlrXz~h~JAKsY0y8lbdJIvqtfNFUb5X1GzsJIwczkOrfWKMZzaqwxyyKUrlqAAmxC~wef6j2NBYzhtru6QWFz2gbZaroRO9LcPiZ~0yhu2HhPDFKi--jJ4ileHUeAzSB61~VSbj1MXDcpmOq5fF6eVAW9Rva9Rvgjmbxwe5dQV2sz9UCwz6caJmP2x7m1x9rshlyPEGBg-ULWXo7Y23Q234Fv9a4pFLGFAp8~bCqQ__"
+              alt="QR Code"
+            />
+          </div>
+          <p class="voucher-code">SONY50OFF</p>
+          <div class="exclusive-info">
+            <p><strong>Exclusive Rewards with Your Loyalty Voucher!</strong></p>
+            <p>
+              As a valued member of our Loyalty Program, we’re excited to offer
+              you an exclusive SONY voucher! Use this voucher at checkout to
+              enjoy special discounts, promotions, and rewards on your current
+              purchase. It’s our way of saying thank you for your continued
+              support. Don’t miss out on limited-time offers tailored just for
+              you. Start saving more and maximize your shopping experience with
+              us today. As a valued member of our Loyalty Program, we’re excited
+              to offer you an exclusive SONY voucher! Use this voucher at
+              checkout to enjoy special discounts, promotions, and rewards on
+              your current purchase. It’s our way of saying thank you for your
+              continued support. Don’t miss out on limited-time offers tailored
+              just for you. Start saving more and maximize your shopping
+              experience with us today. As a valued member of our Loyalty
+              Program, we’re excited to offer you an exclusive SONY voucher! Use
+              this voucher at checkout to enjoy special discounts, promotions,
+              and rewards on your current purchase. It’s our way of saying thank
+              you for your continued support. Don’t miss out on limited-time
+              offers tailored just for you. Start saving more and maximize your
+              shopping experience with us today.
+            </p>
+            <p><a href="#" class="learn-more">Click here</a> to learn more</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const closeBtnVoucher = document.querySelector(".close-btn--voucher");
+      if (closeBtnVoucher) {
+        closeBtnVoucher.addEventListener("click", function () {
+          this.closest(".voucher-popup").classList.remove("open");
+        });
+      }
+    </script>
+  </body>
+</html>

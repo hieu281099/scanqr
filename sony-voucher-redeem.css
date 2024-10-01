@@ -1,0 +1,201 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+.step {
+  display: none;
+  margin-bottom: 20px;
+}
+.step.active {
+  display: block;
+}
+.step-title {
+  font-size: 22px;
+  margin-bottom: 32px;
+  line-height: 29px;
+}
+.step-subtitle {
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.step-dropdown {
+  position: relative;
+  margin-bottom: 20px;
+}
+.step-dropdown-value {
+  position: relative;
+}
+.step-dropdown-value .input-container .styled-input{
+  cursor: pointer;
+}
+.step-dropdown-value::before {
+  position: absolute;
+  content: "";
+  width: 6px;
+  height: 6px;
+  transform: rotate(-45deg) translateY(-50%);
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  top: 50%;
+  right: 8%;
+  z-index: 1;
+  transition: all ease 0.1s;
+}
+.step-dropdown.active .step-dropdown-value::before {
+  transform: rotate(135deg) translateY(50%);
+}
+.step-dropdown-options {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: calc(100% - 2px);
+  border: 1px solid #dedede;
+  display: none;
+  background: #fff;
+  z-index: 10;
+}
+.step-dropdown-options-item {
+  padding: 10px 24px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 15px;
+}
+.step-dropdown-options-item.selected,
+.step-dropdown-options-item:hover {
+  background: #d5e3f4;
+  color: #005ece;
+}
+.step-dropdown.active .step-dropdown-options {
+  display: block;
+}
+.step-input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+.step-input-container input {
+  width: 100%;
+  padding: 12px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.step-input-container label {
+  position: absolute;
+  top: -12px;
+  left: 12px;
+  background: #fff;
+  padding: 0 4px;
+  font-size: 14px;
+  color: #333;
+}
+.step-input-container label.required::after {
+  content: " *";
+  color: red;
+}
+.step-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+.step-button:hover {
+  background-color: #000000fa;
+}
+.icon-success {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-color: #28a745;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.voucher-code {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.discount {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.discount h3 {
+  margin: 0;
+  font-size: 24px;
+  color: #28a745;
+}
+.step-nav {
+  display: block;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.step-nav:hover {
+  text-decoration: underline;
+}
+
+.input-container {
+  position: relative;
+  max-width: 100%;
+  margin: 20px 0;
+}
+
+.styled-input {
+  width: calc(100% - 26px);
+  padding: 8px 12px 10px;
+  font-size: 15px;
+  border: 1px solid #dedede;
+  max-height: 40px;
+  max-width: 100%;
+}
+
+.styled-input:focus {
+  outline: none;
+}
+
+.styled-input:focus + label,
+.styled-input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 12px;
+  padding: 0 5px;
+  transition: 0.3s;
+}
+
+.styled-input:placeholder-shown + label {
+  top: 50%;
+  font-size: 15px;
+  color: #333;
+  background: none;
+  transition: 0.3s;
+  transform: translateY(-50%);
+  background-color: #fff;
+}
+
+.input-container label {
+  position: absolute;
+  left: 15px;
+  font-size: 15px;
+  color: #333;
+  cursor: text;
+  transition: 0.3s;
+  pointer-events: none;
+  background-color: #fff;
+}
+
+.input-container label.required::after {
+  content: " *";
+  color: red;
+}
