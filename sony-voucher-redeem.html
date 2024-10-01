@@ -46,18 +46,21 @@
       <!-- Step 2: Camera Confirmation -->
       <div class="step step--2">
         <h3 class="step-title">Sony e-Voucher Redemption</h3>
+        <div class="video-container">
+          <video id="video" autoplay></video>
+        </div>
         <p class="step-subtitle">
-          Confirm camera access to begin scanning the QR code.
+          Please use your camera and Scan QR Code to begin the redemption
         </p>
-        <button class="step-button button-confirm-camera">
-          Confirm Camera
-        </button>
+        <button class="step-button button-confirm-camera">Scan QR Code</button>
       </div>
 
       <!-- Step 3: QR Code Scanning -->
       <div class="step step--3">
         <h3 class="step-title">Sony e-Voucher Redemption</h3>
-        <video id="video" autoplay></video>
+        <div class="video-container border-red">
+          <video id="video" autoplay></video>
+        </div>
         <div id="qr-result">No QR code detected.</div>
         <p class="step-subtitle">Use your camera to scan the QR Code.</p>
       </div>
