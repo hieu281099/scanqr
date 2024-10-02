@@ -209,9 +209,9 @@
               const qrCode = jsQR(imageData.data, canvas.width, canvas.height, {
                 inversionAttempts: "dontInvert",
               });
-              alert("qrCode", qrCode)
-
+              
               if (qrCode) {
+                alert("qrCode", qrCode)
                 qrResult.textContent = `QR Code Detected: ${qrCode.data}`;
                 stopStream(stream); // Stop the camera stream once the QR code is detected
                 moveToNextStep();
