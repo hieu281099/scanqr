@@ -209,6 +209,7 @@
               const qrCode = jsQR(imageData.data, canvas.width, canvas.height, {
                 inversionAttempts: "dontInvert",
               });
+              alert("qrCode", qrCode)
 
               if (qrCode) {
                 qrResult.textContent = `QR Code Detected: ${qrCode.data}`;
